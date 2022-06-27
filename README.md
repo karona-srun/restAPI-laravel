@@ -18,6 +18,11 @@ DB_PASSWORD=xxx
 
 php artisan key:generate
 php artisan migrate
+php artisan jwt:secret
+
+We have successfully generated the JWT Secret key, and you can check this key inside the .env file.
+
+JWT_SECRET=secret_jwt_string_key
 ```
 
 ## Any update we have to run optimize 

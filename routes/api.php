@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,13 @@ use App\Http\Controllers\Api\UserController;
 */
 
 Route::apiResource('users', 'API\UserController');
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('user-profile', [AuthController::class, 'userProfile']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('/auth/user', 'API\UserController');
+});
