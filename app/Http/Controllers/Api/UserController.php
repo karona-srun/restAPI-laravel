@@ -17,11 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json([
-            "success" => true,
-            "message" => "User List",
-            "data" => $user
-        ]);
+        return response()->json($user);
     }
     /**
      * Store a newly created resource in storage.
@@ -45,11 +41,7 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
-        return response()->json([
-            "success" => true,
-            "message" => "User created successfully.",
-            "data" => $user
-        ]);
+        return response()->json($user);
     }
     /**
      * Display the specified resource.
@@ -61,13 +53,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (is_null($user)) {
-            return response('User not found.');
+            return response('User not found.')->setStatusCode(404);
         }
-        return response()->json([
-            "success" => true,
-            "message" => "User retrieved successfully.",
-            "data" => $user
-        ]);
+        return response()->json($user);
     }
     /**
      * Update the specified resource in storage.
@@ -87,7 +75,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response('Validation Error.'.$validator->errors());
+            return response('Validation Error.'.$validator->errors())->setStatusCode(404);
         }
 
         $user->first_name = $request->first_name;
@@ -97,11 +85,7 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->save();
 
-        return response()->json([
-            "success" => true,
-            "message" => "User updated successfully.",
-            "data" => $user
-        ]);
+        return response()->json($user);
     }
     /**
      * Remove the specified resource from storage.
@@ -112,10 +96,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json([
-            "success" => true,
-            "message" => "User deleted successfully.",
-            "data" => $user
-        ]);
+        return response()->json($user);
     }
 }
