@@ -26,4 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('/auth/user', 'API\UserController');
+
+    Route::apiResource('/teachers', 'API\TeacherController');
+    Route::apiResource('/students', 'API\StudentController');
 });
