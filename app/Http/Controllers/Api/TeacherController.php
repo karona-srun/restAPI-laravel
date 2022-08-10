@@ -39,9 +39,16 @@ class TeacherController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('images/teachers'), $filename);
+        }
+
         $teacher = new Teacher();
         $teacher->firstName = $request->firstName;
         $teacher->lastName = $request->lastName;
+        $teacher->image = url()->previous().'/images/teachers/'.$filename ?? '';
         $teacher->phoneNumber = $request->phoneNumber;
         $teacher->email = $request->email;
         $teacher->address = $request->address;
@@ -94,9 +101,16 @@ class TeacherController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('images/teachers'), $filename);
+        }
+
         $teacher = Teacher::find($id);
         $teacher->firstName = $request->firstName;
         $teacher->lastName = $request->lastName;
+        $teacher->image = url()->previous().'/images/teachers/'.$filename ?? '';
         $teacher->phoneNumber = $request->phoneNumber;
         $teacher->email = $request->email;
         $teacher->address = $request->address;

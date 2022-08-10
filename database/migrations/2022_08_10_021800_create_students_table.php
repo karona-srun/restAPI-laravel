@@ -18,6 +18,7 @@ class CreateStudentsTable extends Migration
             $table->bigInteger('teacher_id');
             $table->string('firstName');
             $table->string('lastName');
+            $table->string('image')->nullable();
             $table->string('gender');
             $table->string('phoneNumber');
             $table->string('email')->nullable();

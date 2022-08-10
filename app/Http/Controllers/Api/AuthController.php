@@ -24,8 +24,8 @@ class AuthController extends Controller
     {
         $requestData = $request->all();
         $validator = Validator::make($requestData,[
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'firstName' => 'required',
+            'lastName' => 'required',
             'email' => 'required|email|unique:users',
             'phone' => 'required|min:11|numeric|unique:users',
             'address' => 'required',
@@ -38,6 +38,13 @@ class AuthController extends Controller
             ], 422);
         }
 
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('images/users'), $filename);
+            $requestData['image'] = url()->previous().'/images/users/'.$filename;
+        }
+       
         $requestData['password'] = Hash::make($requestData['password']);
 
         $user = User::create($requestData);

@@ -51,10 +51,17 @@ class StudentController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('images/students'), $filename);
+        }
+
         $student = new Student();
         $student->teacher_id = $request->teacher_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
+        $student->image = url()->previous().'/images/students/'.$filename  ?? '';
         $student->gender = $request->gender;
         $student->phoneNumber = $request->phoneNumber;
         $student->email = $request->email;
@@ -111,10 +118,17 @@ class StudentController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('images/students'), $filename);
+        }
+
         $student = Student::find($id);
         $student->teacher_id = $request->teacher_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
+        $student->image = url()->previous().'/images/students/'.$filename ?? '';
         $student->gender = $request->gender;
         $student->phoneNumber = $request->phoneNumber;
         $student->email = $request->email;
