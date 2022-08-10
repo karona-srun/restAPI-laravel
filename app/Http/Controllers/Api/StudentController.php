@@ -53,7 +53,7 @@ class StudentController extends Controller
 
         if($request->file('image')){
             $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+            $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
             $file-> move(public_path('images/students'), $filename);
         }
 
@@ -120,7 +120,7 @@ class StudentController extends Controller
 
         if($request->file('image')){
             $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+            $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
             $file-> move(public_path('images/students'), $filename);
         }
 
