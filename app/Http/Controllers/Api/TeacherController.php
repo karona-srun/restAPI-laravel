@@ -80,6 +80,28 @@ class TeacherController extends Controller
         return response()->json($teacher);
     }
 
+    public function uploadTeacherProfile(Request $request)
+    {
+        $teacher = Teacher::find($request->id);
+
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
+            $file-> move(public_path('images/teachers'), $filename);
+        }
+
+        $teacher->image = url()->previous().'/images/teachers/'.$filename ?? '';
+        $teacher->save();
+
+        return response()->json($teacher);
+    }
+
+    public function getTeacherProfile($id)
+    {
+        $teacher = Teacher::find($id);
+        return response()->json($teacher->image);
+    }
+
     /**
      * Update the specified resource in storage.
      *

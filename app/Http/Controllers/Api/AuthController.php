@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $user = User::create($requestData);
 
-        return response([ 'status' => true, 'message' => 'User successfully register.', 'user' => $user ], 200);
+        return response()->json($user);
     }
 
     /**
