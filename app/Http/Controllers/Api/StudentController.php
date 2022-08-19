@@ -16,7 +16,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return response()->json(Student::with('teacher')->get());
+        return response()->json(Student::with(['teacher','classes'])->get());
     }
 
     /**
@@ -42,6 +42,7 @@ class StudentController extends Controller
             'lastName' => 'required',
             'gender' => 'required',
             'teacher_id'=> 'required',
+            'classes_id' => 'required',
             'phoneNumber' => 'required',
             'dob' => 'required',
             'pob' => 'required',
@@ -59,6 +60,7 @@ class StudentController extends Controller
 
         $student = new Student();
         $student->teacher_id = $request->teacher_id;
+        $student->classes_id = $request->classes_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->image = url()->previous().'/images/students/'.$filename  ?? '';
@@ -80,7 +82,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Student::with('teacher')->where('id',$id)->get());
+        return response()->json(Student::with(['teacher','classes'])->where('id',$id)->get());
     }
 
     /**
@@ -91,7 +93,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student = Student::with('teacher')->find($id);
+        $student = Student::with(['teacher','classes'])->find($id);
         return response()->json($student);
     }
 
@@ -109,6 +111,7 @@ class StudentController extends Controller
             'lastName' => 'required',
             'gender' => 'required',
             'teacher_id'=> 'required',
+            'classes_id' => 'required',
             'phoneNumber' => 'required',
             'dob' => 'required',
             'pob' => 'required',
@@ -126,6 +129,7 @@ class StudentController extends Controller
 
         $student = Student::find($id);
         $student->teacher_id = $request->teacher_id;
+        $student->classes_id = $request->classes_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->image = url()->previous().'/images/students/'.$filename ?? '';

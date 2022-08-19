@@ -31,4 +31,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('upload-teacher-profile', 'API\TeacherController@uploadTeacherProfile');
     Route::get('get-teacher-profile/{id}', 'API\TeacherController@getTeacherProfile');
     Route::resource('/students', 'API\StudentController');
+    Route::resource('/classes', 'API\ClassesController');
 });
