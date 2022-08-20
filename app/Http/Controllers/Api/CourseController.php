@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Classes;
+use App\Courses;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ClassesController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        return response()->json(Classes::get());
+        return response()->json(Courses::get());
     }
 
     /**
@@ -35,7 +35,7 @@ class ClassesController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $class = new Classes();
+        $class = new Courses();
         $class->name = $request->name;
         $class->description = $request->description;
         $class->save();
@@ -51,7 +51,7 @@ class ClassesController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Classes::find($id));
+        return response()->json(Courses::find($id));
     }
 
     /**
@@ -62,7 +62,7 @@ class ClassesController extends Controller
      */
     public function edit($id)
     {
-        return response()->json(Classes::find($id));
+        return response()->json(Courses::find($id));
     }
 
     /**
@@ -82,7 +82,7 @@ class ClassesController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $class = Classes::find($id);
+        $class = Courses::find($id);
         $class->name = $request->name;
         $class->description = $request->description;
         $class->save();
@@ -98,7 +98,7 @@ class ClassesController extends Controller
      */
     public function destroy($id)
     {
-        $class = Classes::find($id);
+        $class = Courses::find($id);
         $class->delete();
         return response()->json($class);
     }

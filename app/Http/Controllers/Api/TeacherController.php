@@ -42,7 +42,7 @@ class TeacherController extends Controller
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
-            $file-> move(public_path('images/teachers'), $filename);
+            $file-> move(public_path('images/teachers'), $filename)-> move(public_path('images/protect/teachers'), $filename);
         }
 
         $teacher = new Teacher();
@@ -80,14 +80,21 @@ class TeacherController extends Controller
         return response()->json($teacher);
     }
 
-    public function uploadTeacherProfile(Request $request)
+    public function uploadTeacherProfile(Request $request, $id)
     {
-        $teacher = Teacher::find($request->id);
+        $validator = Validator::make($request->all(), [
+            'image' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 403);
+        }
+        $teacher = Teacher::find($id);
 
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
-            $file-> move(public_path('images/teachers'), $filename);
+            $file-> move(public_path('images/teachers'), $filename)-> move(public_path('images/protect/teachers'), $filename);
         }
 
         $teacher->image = url()->previous().'/images/teachers/'.$filename ?? '';
@@ -99,7 +106,14 @@ class TeacherController extends Controller
     public function getTeacherProfile($id)
     {
         $teacher = Teacher::find($id);
-        return response()->json($teacher->image);
+        $str = explode('/',  $teacher->image);
+        $teacher['protect_image'] = url()->previous().'/images/protect/teachers/'.$str[5];
+        if(!$teacher){
+            return response()->json(404);
+        }
+
+        return response()->json($teacher->protect_image);
+
     }
 
     /**
@@ -126,7 +140,7 @@ class TeacherController extends Controller
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
-            $file-> move(public_path('images/teachers'), $filename);
+            $file-> move(public_path('images/teachers'), $filename)-> move(public_path('images/protect/teachers'), $filename);
         }
 
         $teacher = Teacher::find($id);

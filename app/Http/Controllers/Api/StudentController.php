@@ -16,7 +16,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return response()->json(Student::with(['teacher','classes'])->get());
+        return response()->json(Student::with(['teacher','courses'])->get());
     }
 
     /**
@@ -42,7 +42,7 @@ class StudentController extends Controller
             'lastName' => 'required',
             'gender' => 'required',
             'teacher_id'=> 'required',
-            'classes_id' => 'required',
+            'course_id' => 'required',
             'phoneNumber' => 'required',
             'dob' => 'required',
             'pob' => 'required',
@@ -55,12 +55,12 @@ class StudentController extends Controller
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
-            $file-> move(public_path('images/students'), $filename);
+            $file-> move(public_path('images/students'), $filename)-> move(public_path('images/protect/students'), $filename);
         }
 
         $student = new Student();
         $student->teacher_id = $request->teacher_id;
-        $student->classes_id = $request->classes_id;
+        $student->course_id = $request->course_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->image = url()->previous().'/images/students/'.$filename  ?? '';
@@ -82,7 +82,13 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Student::with(['teacher','classes'])->where('id',$id)->get());
+        $student = Student::with(['teacher','courses'])->where('id',$id)->first();
+        $str = explode('/',  $student->image);
+        $student['protect_image'] = url()->previous().'/images/protect/students/'.$str[5];
+        if(!$student){
+            return response()->json($student,404);
+        }
+        return response()->json($student);
     }
 
     /**
@@ -93,7 +99,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student = Student::with(['teacher','classes'])->find($id);
+        $student = Student::with(['teacher','courses'])->find($id);
         return response()->json($student);
     }
 
@@ -111,7 +117,7 @@ class StudentController extends Controller
             'lastName' => 'required',
             'gender' => 'required',
             'teacher_id'=> 'required',
-            'classes_id' => 'required',
+            'course_id' => 'required',
             'phoneNumber' => 'required',
             'dob' => 'required',
             'pob' => 'required',
@@ -124,12 +130,12 @@ class StudentController extends Controller
         if($request->file('image')){
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
-            $file-> move(public_path('images/students'), $filename);
+            $file->move(public_path('images/students'), $filename)->move(public_path('images/protect/students'), $filename);
         }
 
         $student = Student::find($id);
         $student->teacher_id = $request->teacher_id;
-        $student->classes_id = $request->classes_id;
+        $student->course_id = $request->course_id;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->image = url()->previous().'/images/students/'.$filename ?? '';

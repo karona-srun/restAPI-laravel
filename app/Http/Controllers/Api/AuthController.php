@@ -42,6 +42,7 @@ class AuthController extends Controller
             $file= $request->file('image');
             $filename= date('YmdHi').str_replace(' ', '_', $file->getClientOriginalName());
             $file-> move(public_path('images/users'), $filename);
+            $file-> move(public_path('images/protect/teachers'), $filename);
             $requestData['image'] = url()->previous().'/images/users/'.$filename;
         }
        

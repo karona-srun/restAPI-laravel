@@ -28,8 +28,8 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('/auth/user', 'API\UserController');
 
     Route::resource('/teachers', 'API\TeacherController');
-    Route::post('upload-teacher-profile', 'API\TeacherController@uploadTeacherProfile');
+    Route::post('upload-teacher-profile/{id}', 'API\TeacherController@uploadTeacherProfile');
     Route::get('get-teacher-profile/{id}', 'API\TeacherController@getTeacherProfile');
     Route::resource('/students', 'API\StudentController');
-    Route::resource('/classes', 'API\ClassesController');
+    Route::resource('/courses', 'API\CourseController');
 });
