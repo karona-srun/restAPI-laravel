@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::resource('users', 'API\UserController');
+Route::resource('users', 'Api\UserController');
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -25,11 +25,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user-profile', [AuthController::class, 'userProfile']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::resource('/auth/user', 'API\UserController');
+    Route::resource('/auth/user', 'Api\UserController');
 
-    Route::resource('/teachers', 'API\TeacherController');
-    Route::post('upload-teacher-profile/{id}', 'API\TeacherController@uploadTeacherProfile');
-    Route::get('get-teacher-profile/{id}', 'API\TeacherController@getTeacherProfile');
-    Route::resource('/students', 'API\StudentController');
-    Route::resource('/courses', 'API\CourseController');
+    Route::resource('/teachers', 'Api\TeacherController');
+    Route::post('upload-teacher-profile/{id}', 'Api\TeacherController@uploadTeacherProfile');
+    Route::get('get-teacher-profile/{id}', 'Api\TeacherController@getTeacherProfile');
+    Route::resource('/students', 'Api\StudentController');
+    Route::resource('/courses', 'Api\CourseController');
 });
